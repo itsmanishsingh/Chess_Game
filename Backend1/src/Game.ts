@@ -1,3 +1,5 @@
+// Original Text
+
 import WebSocket from "ws";
 import { Chess } from "chess.js";
 import { GAME_OVER, INIT_GAME, MOVE } from "./messages";
@@ -8,6 +10,7 @@ export class Game {
     private board : Chess;
     private moves: string[];
     private startTime : Date;
+    private moveCount =0;
 
     constructor(player1 : WebSocket , player2 : WebSocket){
         this.player1 = player1;
@@ -36,20 +39,27 @@ export class Game {
         to :  string;
     }){
         // Validate the type of move using zod
-        if(this.board.moves.length % 2 === 0 && socket !== this.player1){
+        if(this.moveCount % 2 === 0 && socket !== this.player1){
+            console.log(`early return 1`)
+            console.log(this.board.moves().length % 2);
+            console.log(socket);
             return;
         }
         
-        if(this.board.moves.length % 2 === 1 && socket !== this.player2){
+        if(this.moveCount % 2 === 1 && socket !== this.player2){
+            console.log(`Early Return 2`);
+            console.log(`this.board.moves().length % 2`);
+            console.log(`socket`);
             return;
         }
 
         console.log(`did not early return`);
 
-        try{
+        // Try to make the move
+        try {
             this.board.move(move);
-        }catch(e){
-            console.log(e);
+        } catch (error) {
+            console.log(error);
             return;
         }
 
@@ -74,8 +84,8 @@ export class Game {
             return;
         }
 
-        console.log(this.board.moves.length % 2)
-        if(this.board.moves.length % 2 === 0){
+        console.log(this.board.moves().length % 2)
+        if(this.board.moves().length % 2 === 0){
             console.log(`sent1`)
             this.player2.send(JSON.stringify({
                 type: MOVE,
@@ -88,6 +98,7 @@ export class Game {
                 payload:move
             }))
         }
+        this.moveCount++;
 
         // Send the updated board to both players:- It is automatically done by WebSocket
     }
