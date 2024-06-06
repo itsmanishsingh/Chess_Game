@@ -21,7 +21,7 @@ export class GameManger{
 
     removeUser(socket: WebSocket) {
         this.users = this.users.filter(user => user !== socket);
-        // Stop the game here because the user left 
+        // Stop the game here because the user left/dropped 
     }
 
     private addHandler(socket : WebSocket) {
@@ -36,7 +36,7 @@ export class GameManger{
                     this.pendingUser = null;
 
                 }else{
-                    // add to the pendingUser
+                    // add to the pendingUser list
                     this.pendingUser = socket;
                 }
             }
