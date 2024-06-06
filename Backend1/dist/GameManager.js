@@ -15,7 +15,7 @@ class GameManger {
     }
     removeUser(socket) {
         this.users = this.users.filter(user => user !== socket);
-        // Stop the game here because the user left 
+        // Stop the game here because the user left/dropped 
     }
     addHandler(socket) {
         socket.on("message", (data) => {
@@ -28,7 +28,7 @@ class GameManger {
                     this.pendingUser = null;
                 }
                 else {
-                    // add to the pendingUser
+                    // add to the pendingUser list
                     this.pendingUser = socket;
                 }
             }
