@@ -1,6 +1,10 @@
 import { Color, PieceSymbol, Square } from "chess.js";
+import  { useState } from "react";
+import { MOVE } from "../screens/Game";
 
-export const ChessBoard = ({ board , socket}:{
+export const ChessBoard = ({ chess, board , socket , setBoard }:{
+    chess :any;
+    setBoard : any;
     board: ({
         square: Square;
         type : PieceSymbol;
@@ -23,13 +27,19 @@ export const ChessBoard = ({ board , socket}:{
                                     // setTo(square?.square ?? null);
                                     socket.send(JSON.stringify({
                                         type:"MOVE",
-                                        payload:{
-                                            from ,
-                                            to: squareRepresentation
+                                        payload : {
+                                            move : {
+                                                from ,
+                                                to: squareRepresentation
+                                            }
                                         }
                                     }))
                                     setFrom(null)
-
+                                    chess.move({
+                                        from ,
+                                        to: squareRepresentation
+                                    });
+                                    setBoard(chess.board());
                                     console.log({
                                         from,
                                         to
@@ -39,7 +49,10 @@ export const ChessBoard = ({ board , socket}:{
                             }} key={j} className={`w-16 h-16 ${(i+j)%2===0 ? 'bg-green-500':'bg-white-300'}`}>
                                 <div className="w-full justify-center flex h-full">
                                     <div className="h-full justify-center flex flex-col">
-                                        {square ? square.type : ""}
+                                        {
+                                        // square ? square.type : ""
+                                        square ? <img className="w-4" src ={`/${square?.color === "b" ? square?.type : `${square?.type?.toUpperCase()} copy`}.png`} /> : null
+                                        }
                                     </div>
                                 </div>
                             </div>
