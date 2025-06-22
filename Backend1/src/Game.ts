@@ -18,7 +18,7 @@ export class Game {
         this.board = new Chess();
         this.moves = [];
         this.startTime = new Date();
-        
+        // Inform both the user if the pair is confirmed
         this.player1.send(JSON.stringify({
             type:INIT_GAME,
             payload:{
@@ -64,7 +64,7 @@ export class Game {
         }
 
         console.log(`move succeeded`);
-
+        // Update the board => Handled by Chess.js Library
 
         // Check GameOver
         if(this.board.isGameOver()){
@@ -86,17 +86,19 @@ export class Game {
 
         console.log(this.board.moves().length % 2)
         if(this.board.moves().length % 2 === 0){
-            console.log(`sent1`)
+            console.log(`sent1`);
             this.player2.send(JSON.stringify({
                 type: MOVE,
                 payload:move
             }))
+            console.log(`sent1 last`)
         }else{
-            console.log(`sent2`)
+            console.log(`sent2`);
             this.player1.send(JSON.stringify({
                 type: MOVE,
                 payload:move
             }))
+            console.log(`sent2 last`)
         }
         this.moveCount++;
 

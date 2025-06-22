@@ -12,6 +12,7 @@ class Game {
         this.board = new chess_js_1.Chess();
         this.moves = [];
         this.startTime = new Date();
+        // Inform both the user if the pair is confirmed
         this.player1.send(JSON.stringify({
             type: messages_1.INIT_GAME,
             payload: {
@@ -49,6 +50,7 @@ class Game {
             return;
         }
         console.log(`move succeeded`);
+        // Update the board => Handled by Chess.js Library
         // Check GameOver
         if (this.board.isGameOver()) {
             // Send the game over message to both players
@@ -73,6 +75,7 @@ class Game {
                 type: messages_1.MOVE,
                 payload: move
             }));
+            console.log(`sent1 last`);
         }
         else {
             console.log(`sent2`);
@@ -80,6 +83,7 @@ class Game {
                 type: messages_1.MOVE,
                 payload: move
             }));
+            console.log(`sent2 last`);
         }
         this.moveCount++;
         // Send the updated board to both players:- It is automatically done by WebSocket
