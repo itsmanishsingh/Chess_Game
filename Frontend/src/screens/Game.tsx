@@ -25,10 +25,8 @@ export const Game = ()=>{
             // console.log(message);
             switch (message.type){
                 case INIT_GAME:
-                    // setChess(new Chess());
                     setBoard(chess.board());
                     setStarted(true);
-                    console.log(`Game initialized`);
                     break;
                 case MOVE:
                     const move = message.payload;

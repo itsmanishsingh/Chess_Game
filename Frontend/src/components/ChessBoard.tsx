@@ -13,7 +13,7 @@ export const ChessBoard = ({ chess, board , socket , setBoard }:{
     socket: WebSocket;
 })=>{
     const [from , setFrom] = useState<null | Square>(null);
-    const [to , setTo] = useState<null | Square>(null);
+    // const [to , setTo] = useState<null | Square>(null);
 
     return <div className="text-white-200">
                 {board.map((row,i)=>{
@@ -26,7 +26,7 @@ export const ChessBoard = ({ chess, board , socket , setBoard }:{
                                 }else{
                                     // setTo(square?.square ?? null);
                                     socket.send(JSON.stringify({
-                                        type:"MOVE",
+                                        type:MOVE,
                                         payload : {
                                             move : {
                                                 from ,
@@ -42,7 +42,7 @@ export const ChessBoard = ({ chess, board , socket , setBoard }:{
                                     setBoard(chess.board());
                                     console.log({
                                         from,
-                                        to
+                                        to : squareRepresentation
                                     })
 
                                 }
